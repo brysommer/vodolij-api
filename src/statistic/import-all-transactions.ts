@@ -63,7 +63,10 @@ const importTransactions = async (device: number, startTime: string, endTime: st
                 for (let transaction of log) {
                     const transactionData = {
                         device,
-                        date: transaction.date,
+                        date: DateTime.fromFormat(
+                            transaction.date,
+                            'yyyy-MM-dd HH:mm:ss',
+                        ).toJSDate(),
                         waterRequested: Number(transaction.wz),
                         waterFullfilled: Number(transaction.wg),
                         cashPaymant: Number(transaction.mt),
