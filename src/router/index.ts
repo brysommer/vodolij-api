@@ -5,5 +5,7 @@ const router = e.Router();
 
 export default (): e.Router => {
     botTransaction(router);
+
+    //тут наступні гілки роутера
     return router;
 };

@@ -36,7 +36,9 @@ const userWaterByTime = async (
         },
     });
 
-    return Number(result._sum?.waterFullfilled?.toFixed(0)) ?? 0;
+    return result._sum?.waterFullfilled != null
+        ? Number(result._sum.waterFullfilled.toFixed(0))
+        : 0;
 };
 
 export { waterByTime, userWaterByTime };
