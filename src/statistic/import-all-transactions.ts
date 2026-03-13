@@ -106,6 +106,7 @@ const import10minTransactions = async () => {
         ).data;
         const machines = locations.devices;
         const endTime = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
+        console.log('endTime : ' + endTime);
         const startTime = DateTime.now().minus({ minutes: 10 }).toFormat('yyyy-MM-dd HH:mm:ss');
 
         for (let i = 4; i < machines.length; i++) {
