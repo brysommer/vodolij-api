@@ -10,6 +10,7 @@ import { daySummoryLog, import10minTransactions } from './statistic/import-all-t
 import nodeCron from 'node-cron';
 import { botWeeklyUsersStatistic } from './statistic/weekly/weekly-statistic';
 import { botMonthlyUsersStatistic } from './statistic/monthly/monthly-statistic';
+import { DateTime } from 'luxon';
 
 const app = e();
 
@@ -23,6 +24,8 @@ server.listen(8080, () => {
 });
 
 nodeCron.schedule('*/10 * * * *', () => {
+    console.log('System Date:', new Date().toString());
+    console.log('Luxon Date:', DateTime.now().toString());
     import10minTransactions().catch(console.error);
 });
 
