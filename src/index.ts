@@ -26,7 +26,6 @@ server.listen(8080, () => {
 nodeCron.schedule(
     '*/10 * * * *',
     () => {
-        console.log('Запуск імпорта' + DateTime);
         import10minTransactions().catch(console.error);
     },
     {
