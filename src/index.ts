@@ -6,7 +6,7 @@ import router from './router';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import daySummoryLog from './statistic/import-all-transactions';
+import { daySummoryLog, import10minTransactions } from './statistic/import-all-transactions';
 import nodeCron from 'node-cron';
 import { botWeeklyUsersStatistic } from './statistic/weekly/weekly-statistic';
 import { botMonthlyUsersStatistic } from './statistic/monthly/monthly-statistic';
@@ -21,6 +21,16 @@ const server = http.createServer(app);
 server.listen(8080, () => {
     console.log(`Server running on http://localhost:8080/`);
 });
+
+nodeCron.schedule(
+    '*/10 * * * *',
+    () => {
+        import10minTransactions().catch(console.error);
+    },
+    {
+        timezone: 'Europe/Kiev', // щоб опівночі за київським часом
+    },
+);
 
 nodeCron.schedule(
     '0 0 * * *',

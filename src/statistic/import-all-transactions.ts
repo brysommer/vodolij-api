@@ -8,7 +8,21 @@ import { waterByTime } from './total-water';
 
 dotenv.config();
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const topListChannel = process.env.TOP_CHANNEL_TOKEN || '1';
+
+interface DevicesResponse {
+    status: string;
+    devices: Device[];
+}
+
+interface Device {
+    id: string;
+    name: string;
+    lat: string | null;
+    lon: string | null;
+}
 
 const importTransactions = async (device: number, startTime: string, endTime: string) => {
     interface LogResponseSuccess {
@@ -85,20 +99,27 @@ const importTransactions = async (device: number, startTime: string, endTime: st
     }
 };
 
+const import10minTransactions = async () => {
+    try {
+        const locations = (
+            await axios.get<DevicesResponse>('http://soliton.net.ua/water/api/devices')
+        ).data;
+        const machines = locations.devices;
+        const endTime = DateTime.now().setZone('Europe/Kyiv').toFormat('yyyy-MM-dd HH:mm:ss');
+        const startTime = DateTime.now().minus({ minutes: 10 }).toFormat('yyyy-MM-dd HH:mm:ss');
+
+        for (let i = 4; i < machines.length; i++) {
+            await importTransactions(Number(machines[i].id), startTime, endTime);
+
+            await sleep(1500);
+        }
+    } catch (error) {
+        logger.error(error);
+    }
+};
+
 const daySummoryLog = async () => {
     try {
-        interface DevicesResponse {
-            status: string;
-            devices: Device[];
-        }
-
-        interface Device {
-            id: string;
-            name: string;
-            lat: string | null;
-            lon: string | null;
-        }
-
         const locations = (
             await axios.get<DevicesResponse>('http://soliton.net.ua/water/api/devices')
         ).data;
@@ -107,19 +128,16 @@ const daySummoryLog = async () => {
         const endTime = DateTime.now().setZone('Europe/Kyiv').toFormat('yyyy-MM-dd HH:mm:ss');
         const startTime = DateTime.now().minus({ minutes: 1440 }).toFormat('yyyy-MM-dd HH:mm:ss');
 
-        for (let i = 4; i < machines.length; i++) {
-            await importTransactions(Number(machines[i].id), startTime, endTime);
-            if (i === machines.length - 1) {
-                const totalWaterFulfilled = await waterByTime(startTime, endTime);
+        const totalWaterFulfilled = await waterByTime(startTime, endTime);
 
-                const today = DateTime.now().toFormat('dd.LL.yyyy');
-                const string = `${today}
+        const today = DateTime.now().toFormat('dd.LL.yyyy');
+        const string = `${today}
                 Мережа Водолій налічує  автоматів  ${devicesQuantity},
                 Кількість налитої води за добу: ${totalWaterFulfilled} літрів.`;
-                techBot.sendMessage(topListChannel, string);
-            }
-        }
-    } catch (error) {}
+        techBot.sendMessage(topListChannel, string);
+    } catch (error) {
+        logger.error(error);
+    }
 };
 
-export default daySummoryLog;
+export { daySummoryLog, import10minTransactions };
