@@ -105,7 +105,7 @@ const import10minTransactions = async () => {
             await axios.get<DevicesResponse>('http://soliton.net.ua/water/api/devices')
         ).data;
         const machines = locations.devices;
-        const endTime = DateTime.now().setZone('Europe/Kyiv').toFormat('yyyy-MM-dd HH:mm:ss');
+        const endTime = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
         const startTime = DateTime.now().minus({ minutes: 10 }).toFormat('yyyy-MM-dd HH:mm:ss');
 
         for (let i = 4; i < machines.length; i++) {
@@ -125,7 +125,7 @@ const daySummoryLog = async () => {
         ).data;
         const machines = locations.devices;
         const devicesQuantity = machines.length - 4;
-        const endTime = DateTime.now().setZone('Europe/Kyiv').toFormat('yyyy-MM-dd HH:mm:ss');
+        const endTime = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
         const startTime = DateTime.now().minus({ minutes: 1440 }).toFormat('yyyy-MM-dd HH:mm:ss');
 
         const totalWaterFulfilled = await waterByTime(startTime, endTime);
