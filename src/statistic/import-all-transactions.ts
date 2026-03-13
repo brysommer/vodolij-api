@@ -80,6 +80,7 @@ const importTransactions = async (device: number, startTime: string, endTime: st
                         date: DateTime.fromFormat(
                             transaction.date,
                             'yyyy-MM-dd HH:mm:ss',
+                            { zone: 'Europe/Kyiv' }, // Кажемо: "Цей рядок вже в київському часі"
                         ).toJSDate(),
                         waterRequested: Number(transaction.wz),
                         waterFullfilled: Number(transaction.wg),
