@@ -15,8 +15,8 @@ model Apiusers {
   birthdaydate String?  @db.VarChar(255)
   phone        String?  @db.VarChar(255)
   cardId       Int?     @unique(map: "unique_cardId")
-  createdAt    DateTime @db.Timestamptz(6)
-  updatedAt    DateTime @db.Timestamptz(6)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   tranactions transactions[]
 }
@@ -59,8 +59,8 @@ model cards {
   LitersPerDay  Int?
   Discount      Int?
   status        String?  @db.VarChar(255)
-  createdAt     DateTime @db.Timestamptz(6)
-  updatedAt     DateTime @db.Timestamptz(6)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model daily_statistics {
@@ -79,8 +79,8 @@ model daily_statistics {
   cardRevenue           Float
   onlineRevenue         Float
   failedTransactions    Int
-  createdAt             DateTime @db.Timestamptz(6)
-  updatedAt             DateTime @db.Timestamptz(6)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model tasks {
