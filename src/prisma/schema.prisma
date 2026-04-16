@@ -91,8 +91,8 @@ model tasks {
   priority    String?   @default("medium")
   deviceId    Int?
   completedAt DateTime? @db.Timestamptz(6)
-  createdAt   DateTime  @db.Timestamptz(6)
-  updatedAt   DateTime  @db.Timestamptz(6)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   workerId    Int?
   workers     workers?  @relation(fields: [workerId], references: [id])
 }
@@ -188,8 +188,8 @@ model maintenance_tasks {
   parts_needed       String?
   scheduled_date     DateTime?                                @db.Timestamptz(6)
   completed_at       DateTime?                                @db.Timestamptz(6)
-  createdAt          DateTime                                 @db.Timestamptz(6)
-  updatedAt          DateTime                                 @db.Timestamptz(6)
+  createdAt           DateTime                                @default(now())
+  updatedAt           DateTime                                @updatedAt
   vending_machines   vending_machines?                        @relation(fields: [machine_id], references: [id])
   technicians        technicians?                             @relation(fields: [technician_id], references: [id])
 }
@@ -202,8 +202,8 @@ model technicians {
   specialization      enum_technicians_specialization? @default(general)
   status              enum_technicians_status?         @default(available)
   current_location    String?                          @db.VarChar(255)
-  createdAt           DateTime                         @db.Timestamptz(6)
-  updatedAt           DateTime                         @db.Timestamptz(6)
+  createdAt           DateTime                          @default(now())
+  updatedAt           DateTime                          @updatedAt
   maintenance_tasks   maintenance_tasks[]
   water_quality_tests water_quality_tests[]
 }
@@ -220,8 +220,8 @@ model vending_machines {
   alerts                String?
   filter_life_remaining Int?
   water_quality_status  enum_vending_machines_water_quality_status? @default(good)
-  createdAt             DateTime                                    @db.Timestamptz(6)
-  updatedAt             DateTime                                    @db.Timestamptz(6)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   maintenance_tasks     maintenance_tasks[]
   water_quality_tests   water_quality_tests[]
 }
@@ -237,8 +237,8 @@ model water_quality_tests {
   overall_rating   enum_water_quality_tests_overall_rating
   notes            String?
   tested_by        Int?
-  createdAt        DateTime                                @db.Timestamptz(6)
-  updatedAt        DateTime                                @db.Timestamptz(6)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   vending_machines vending_machines                        @relation(fields: [machine_id], references: [id], onDelete: NoAction)
   technicians      technicians?                            @relation(fields: [tested_by], references: [id])
 }

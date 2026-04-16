@@ -11,7 +11,7 @@ import nodeCron from 'node-cron';
 import { botWeeklyUsersStatistic } from './statistic/weekly/weekly-statistic';
 import { botMonthlyUsersStatistic } from './statistic/monthly/monthly-statistic';
 import { DateTime } from 'luxon';
-import { collectDailyStatistics } from 'statistic/dayli/daily-summory';
+import { collectDailyStatistics } from './statistic/dayli/daily-summory';
 
 const app = e();
 
