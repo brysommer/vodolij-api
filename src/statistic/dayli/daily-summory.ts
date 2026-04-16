@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import prisma from 'db/client';
+import prisma from '../../db/client';
 
 export const collectDailyStatistics = async () => {
     // Отримуємо всі транзакції за вчора
