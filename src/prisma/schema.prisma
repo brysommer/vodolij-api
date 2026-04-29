@@ -18,7 +18,7 @@ model Apiusers {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  tranactions transactions[]
+  //tranactions transactions[]
 }
 
 model achievements {
@@ -109,7 +109,7 @@ model transactions {
   paymantChange   Float?   @db.Real
   cardId          Int?
 
-  userCardId      Apiusers? @relation(fields: [cardId], references: [cardId])
+  //userCardId      Apiusers? @relation(fields: [cardId], references: [cardId])
 }
 
 model user_achievements {
@@ -172,6 +172,24 @@ model collections {
   device_id     Int?
   created_at    DateTime @db.Timestamptz(6)
   updated_at    DateTime @db.Timestamptz(6)
+}
+
+model BotAnalyticsDaylySnapshot {
+  id                Int      @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+
+  // Кількість користувачів
+  totalWater        Int?
+  inactiveUsers     Int?      // Користувачі, що не заходили понад 30 днів
+  newUsers          Int?      // Нові реєстрації за останню добу
+
+  // Фінансові показники (всі баланси користувачів разом)
+  // Використовуємо Decimal для точності фінансів
+  totalBalance      Decimal  @db.Decimal(10, 2)
+
+  // Активність
+  dau               Int?      // Daily Active Users (активні за сьогодні)
+  @@index([createdAt])
 }
 
 model maintenance_tasks {

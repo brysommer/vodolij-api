@@ -12,6 +12,7 @@ import { botWeeklyUsersStatistic } from './statistic/weekly/weekly-statistic';
 import { botMonthlyUsersStatistic } from './statistic/monthly/monthly-statistic';
 import { DateTime } from 'luxon';
 import { collectDailyStatistics } from './statistic/dayli/daily-summory';
+import { createDailyBotSnapshot } from 'statistic/dayli/bot-only-data';
 
 const app = e();
 
@@ -33,6 +34,7 @@ nodeCron.schedule('*/10 * * * *', () => {
 nodeCron.schedule('0 0 * * *', () => {
     daySummoryLog().catch(console.error);
     collectDailyStatistics();
+    createDailyBotSnapshot();
 });
 
 nodeCron.schedule('0 0 * * 0', () => {
