@@ -1,7 +1,7 @@
 import prisma from '../db/client'; //
 import { getExternalUserBalance } from './user-balance';
 import dotenv from 'dotenv';
-import { techBot } from 'bots';
+import { techBot } from '../bots';
 
 dotenv.config();
 

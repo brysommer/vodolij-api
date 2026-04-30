@@ -2,8 +2,8 @@ import prisma from '../../db/client';
 import { techBot } from '../../bots';
 import dotenv from 'dotenv';
 import { DateTime } from 'luxon';
-import { getAllBotUsersBalance } from 'controllers/all-bot-users-balance';
-import { userWaterByTime } from 'statistic/total-water';
+import { getAllBotUsersBalance } from '../../controllers/all-bot-users-balance';
+import { userWaterByTime } from '../total-water';
 
 dotenv.config();
 
