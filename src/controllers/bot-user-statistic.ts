@@ -1,14 +1,20 @@
-import axios from 'axios';
 import moment from 'moment';
 import e from 'express';
 import prisma from '../db/client';
 
 export const getUserStatistic = async (req: e.Request, res: e.Response) => {
     try {
-        const { cardId } = req.body;
+        let { cardId } = req.params;
 
         if (!cardId) {
             return res.status(400).json({ error: 'cardId is required' });
+        }
+
+        const numericCardId = Number(cardId);
+
+        // Перевірка, чи це взагалі число, щоб не покласти базу
+        if (isNaN(numericCardId)) {
+            return res.status(400).json({ error: 'cardId must be a valid number' });
         }
 
         const now = new Date();
@@ -22,7 +28,7 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
         const dayAgg = await prisma.transactions.aggregate({
             _sum: { waterFullfilled: true },
             where: {
-                cardId,
+                cardId: numericCardId,
                 date: { gte: startOfDay, lte: now },
             },
         });
@@ -31,7 +37,7 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
         const weekAgg = await prisma.transactions.aggregate({
             _sum: { waterFullfilled: true },
             where: {
-                cardId,
+                cardId: numericCardId,
                 date: { gte: startOfWeek, lte: now },
             },
         });
@@ -40,7 +46,7 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
         const monthAgg = await prisma.transactions.aggregate({
             _sum: { waterFullfilled: true },
             where: {
-                cardId,
+                cardId: numericCardId,
                 date: { gte: startOfMonth, lte: now },
             },
         });
