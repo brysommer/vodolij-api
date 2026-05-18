@@ -2,6 +2,9 @@ import moment from 'moment';
 import e from 'express';
 import prisma from '../db/client';
 
+import 'moment/locale/uk';
+moment.locale('uk');
+
 export const getUserStatistic = async (req: e.Request, res: e.Response) => {
     try {
         let { cardId } = req.params;
