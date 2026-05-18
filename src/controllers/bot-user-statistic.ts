@@ -55,6 +55,12 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
             day: dayAgg._sum.waterFullfilled || 0,
             week: weekAgg._sum.waterFullfilled || 0,
             month: monthAgg._sum.waterFullfilled || 0,
+            intervals: {
+                now,
+                startOfDay,
+                startOfWeek,
+                startOfMonth,
+            },
         });
     } catch (error) {
         console.error('Error fetching statistics:', error);
