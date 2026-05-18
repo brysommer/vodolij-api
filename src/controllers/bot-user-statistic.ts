@@ -20,7 +20,7 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
             return res.status(400).json({ error: 'cardId must be a valid number' });
         }
 
-        const now = new Date();
+        const now = moment.utc().toDate();
 
         // Визначаємо часові межі
         const startOfDay = moment.utc().startOf('day').toDate();
