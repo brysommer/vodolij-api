@@ -23,9 +23,9 @@ export const getUserStatistic = async (req: e.Request, res: e.Response) => {
         const now = new Date();
 
         // Визначаємо часові межі
-        const startOfDay = moment().startOf('day').toDate();
-        const startOfWeek = moment().startOf('week').toDate(); // За замовчуванням Неділя (або Понеділок залежно від локалі)
-        const startOfMonth = moment().startOf('month').toDate();
+        const startOfDay = moment.utc().startOf('day').toDate();
+        const startOfWeek = moment.utc().startOf('week').toDate();
+        const startOfMonth = moment.utc().startOf('month').toDate();
 
         // 1. Статистика за День
         const dayAgg = await prisma.transactions.aggregate({
