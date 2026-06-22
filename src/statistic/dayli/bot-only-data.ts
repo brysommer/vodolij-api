@@ -10,8 +10,6 @@ dotenv.config();
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const createDailyBotSnapshot = async () => {
-    console.log('🚀 Початок формування щоденного знімка аналітики...');
-
     const usersBalance = await getAllBotUsersBalance();
 
     // 3. Сегментуємо користувачів та збираємо дані з зовнішнього API
@@ -30,7 +28,6 @@ export const createDailyBotSnapshot = async () => {
                 .minus({ minutes: 1440 })
                 .toFormat('yyyy-MM-dd HH:mm:ss');
             userTotal = await userWaterByTime(startTime, endTime, cardId);
-            console.log(userTotal);
         }
 
         usersWithTotals.push({
@@ -43,7 +40,6 @@ export const createDailyBotSnapshot = async () => {
         });
     }
 
-    console.log(`📊 Обробимо ${users.length} користувачів...`);
     const usersWaterTotal = usersWithTotals.reduce((sum, user) => sum + user.userTotal, 0);
 
     const twentyFourHoursAgo = DateTime.now().minus({ hours: 24 }).toJSDate();

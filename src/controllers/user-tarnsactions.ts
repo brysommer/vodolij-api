@@ -81,7 +81,6 @@ export const getUserTransactions = async (req: e.Request, res: e.Response) => {
             if (response.data?.log === undefined) return;
             const log = response.data?.log;
 
-            console.log(log);
             if (log.length > 0) {
                 const lastTransaction = log.find((item) => item.cardid == cardId);
 

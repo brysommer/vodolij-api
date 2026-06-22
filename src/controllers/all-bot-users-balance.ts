@@ -41,9 +41,6 @@ export const getAllBotUsersBalance = async () => {
         if (balanceData) {
             totalWaterLiters += balanceData.waterBalance;
             processedCount++;
-            console.log(
-                `[${processedCount}] Юзер: ${user.name} | Баланс: ${balanceData.waterBalance} л.`,
-            );
         } else {
             errorCount++;
             console.warn(`⚠️ Не вдалося отримати дані для: ${user.phone}`);

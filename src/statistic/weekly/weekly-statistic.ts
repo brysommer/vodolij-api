@@ -20,7 +20,6 @@ export const botWeeklyUsersStatistic = async () => {
             const endTime = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
             const startTime = DateTime.now().minus({ days: 7 }).toFormat('yyyy-MM-dd HH:mm:ss');
             userTotal = await userWaterByTime(startTime, endTime, cardId);
-            console.log(userTotal);
         }
 
         usersWithTotals.push({
